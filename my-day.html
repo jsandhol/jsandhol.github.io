@@ -1,258 +1,258 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    <title>My Day</title>
-    <script>
+		<title>My Day</title>
+		<script>
 var MAX = 40;
 var totals = [];
 
 function setCookie(c_name, value, exdays) {
-var exdate = new Date();
-exdate.setDate(exdate.getDate() + exdays);
-var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString());
-document.cookie = c_name + "=" + c_value;
+	var exdate = new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString());
+	document.cookie = c_name + "=" + c_value;
 }
 
 function getCookie(c_name) {
-var c_value = document.cookie;
-var c_start = c_value.indexOf(" " + c_name + "=");
+	var c_value = document.cookie;
+	var c_start = c_value.indexOf(" " + c_name + "=");
 
-if (c_start == -1) {
-    c_start = c_value.indexOf(c_name + "=");
-}
-
-if (c_start == -1) {
-    c_value = null;
-} else {
-    c_start = c_value.indexOf("=", c_start) + 1;
-    var c_end = c_value.indexOf(";", c_start);
-    
-    if (c_end == -1) {
-        c_end = c_value.length;
-    }
-    
-    c_value = unescape(c_value.substring(c_start,c_end));
-}
-
-return c_value;
+	if (c_start == -1) {
+		c_start = c_value.indexOf(c_name + "=");
+	}
+	
+	if (c_start == -1) {
+		c_value = null;
+	} else {
+		c_start = c_value.indexOf("=", c_start) + 1;
+		var c_end = c_value.indexOf(";", c_start);
+		
+		if (c_end == -1) {
+			c_end = c_value.length;
+		}
+		
+		c_value = unescape(c_value.substring(c_start,c_end));
+	}
+	
+	return c_value;
 }
 
 function save() {
-var data = "";
-var r;
-
-for (r = 1; r <= MAX; r = r + 1) {
-    if (data !== "") {
-        data = data + "�";
-    }
-    data = data + document.getElementById("Time_" + r).value;
-    data = data + "�" + document.getElementById("Ref_" + r).value;
-    data = data + "�" + document.getElementById("Desc_" + r).value;
-}
-
-setCookie("data", data, 60);
+	var data = "";
+	var r;
+	
+	for (r = 1; r <= MAX; r = r + 1) {
+		if (data !== "") {
+			data = data + "§";
+		}
+		data = data + document.getElementById("Time_" + r).value;
+		data = data + "¤" + document.getElementById("Ref_" + r).value;
+		data = data + "¤" + document.getElementById("Desc_" + r).value;
+	}
+	
+	setCookie("data", data, 60);
 }
 
 function load() {
-var data = getCookie("data");
-
-if (data !== null) {
-    var rows = data.split("�");
-    var cols, r;
-    
-    for (r = 0; r < rows.length; r = r + 1) {
-        cols = rows[r].split("�");
-        document.getElementById("Time_" + (r + 1)).value = cols[0];
-        document.getElementById("Ref_" + (r + 1)).value = cols[1];
-        document.getElementById("Desc_" + (r + 1)).value = cols[2];
-    }
-}
+	var data = getCookie("data");
+	
+	if (data !== null) {
+		var rows = data.split("§");
+		var cols, r;
+		
+		for (r = 0; r < rows.length; r = r + 1) {
+			cols = rows[r].split("¤");
+			document.getElementById("Time_" + (r + 1)).value = cols[0];
+			document.getElementById("Ref_" + (r + 1)).value = cols[1];
+			document.getElementById("Desc_" + (r + 1)).value = cols[2];
+		}
+	}
 }
 
 function Category(ref, total) {
-this.Ref = null;
-this.Total = 0;
-
-if (ref !== undefined && ref !== null) {
-    this.Ref = ref;
-}
-
-if (total !== undefined && total !== null) {
-    this.Total = total;
-}
+	this.Ref = null;
+	this.Total = 0;
+	
+	if (ref !== undefined && ref !== null) {
+		this.Ref = ref;
+	}
+	
+	if (total !== undefined && total !== null) {
+		this.Total = total;
+	}
 }
 
 function encode(date) {
-var yyyy = String(date.getFullYear());
-var MM = String(date.getMonth() + 1);
-var dd = String(date.getDate());
-var HH = String(date.getHours());
-var mm = String(date.getMinutes());
-var ss = String(date.getSeconds());
-
-return yyyy + "-" + (MM.length===2?MM:"0"+MM) + "-" + (dd.length===2?dd:"0"+dd) + " " + (HH.length===2?HH:"0"+HH) + ":" + (mm.length===2?mm:"0"+mm) + ":" + (ss.length===2?ss:"0"+ss);
+	var yyyy = String(date.getFullYear());
+	var MM = String(date.getMonth() + 1);
+	var dd = String(date.getDate());
+	var HH = String(date.getHours());
+	var mm = String(date.getMinutes());
+	var ss = String(date.getSeconds());
+	
+	return yyyy + "-" + (MM.length===2?MM:"0"+MM) + "-" + (dd.length===2?dd:"0"+dd) + " " + (HH.length===2?HH:"0"+HH) + ":" + (mm.length===2?mm:"0"+mm) + ":" + (ss.length===2?ss:"0"+ss);
 }
 
 function decode(date) {
-var result = new Date();
-
-var dp = String(date).substring(0, 10).split("-");
-var tp = String(date).substring(11, 19).split(":");
-
-result.setFullYear(dp[0], dp[1] - 1, dp[2]);
-result.setHours(tp[0], tp[1], tp[2], 0);
-
-return result;
+	var result = new Date();
+	
+	var dp = String(date).substring(0, 10).split("-");
+	var tp = String(date).substring(11, 19).split(":");
+	
+	result.setFullYear(dp[0], dp[1] - 1, dp[2]);
+	result.setHours(tp[0], tp[1], tp[2], 0);
+	
+	return result;
 }
 
 function begin(r) {
-var e1 = document.getElementById("Time_" + r);
-var e2 = document.getElementById("Ref_" + r);
-
-e1.value = encode(new Date());
-e2.focus();
+	var e1 = document.getElementById("Time_" + r);
+	var e2 = document.getElementById("Ref_" + r);
+	
+	e1.value = encode(new Date());
+	e2.focus();
 }
 
 function append(ref, millis) {
-var i;
-
-for (i = 0; i < totals.length; i = i + 1) {
-    if (totals[i].Ref === ref) {
-        totals[i].Total = totals[i].Total + millis;
-        return;
-    }
-}
-
-totals.push(new Category(ref, millis));
+	var i;
+	
+	for (i = 0; i < totals.length; i = i + 1) {
+		if (totals[i].Ref === ref) {
+			totals[i].Total = totals[i].Total + millis;
+			return;
+		}
+	}
+	
+	totals.push(new Category(ref, millis));
 }
 
 function millisToTime(duration) {
-//var milliseconds = parseInt((duration%1000) / 100)
-var seconds = parseInt((duration/1000) % 60)
-var minutes = parseInt((duration/(1000 * 60)) % 60)
-var hours = parseInt((duration/(1000 * 60 * 60)) % 24);
-
-hours = (hours < 10) ? "0" + hours : hours;
-minutes = (minutes < 10) ? "0" + minutes : minutes;
-seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-return hours + ":" + minutes + ":" + seconds; // + "." + milliseconds;
+	//var milliseconds = parseInt((duration%1000) / 100)
+	var seconds = parseInt((duration/1000) % 60)
+	var minutes = parseInt((duration/(1000 * 60)) % 60)
+	var hours = parseInt((duration/(1000 * 60 * 60)) % 24);
+	
+	hours = (hours < 10) ? "0" + hours : hours;
+	minutes = (minutes < 10) ? "0" + minutes : minutes;
+	seconds = (seconds < 10) ? "0" + seconds : seconds;
+	
+	return hours + ":" + minutes + ":" + seconds; // + "." + milliseconds;
 }
 
 function display() {
-var e1 = document.getElementById("Totals");
-var html, i, h, m, s, t;
-var g = 0;
-
-html = "<table border='1'><tr><th width='200'>Reference</th><th>Total Time</th></tr>";
-
-for (i = 0; i < totals.length; i = i + 1) {
-    g = g + totals[i].Total;
-    totals[i].Ref === "" ? html = html + "<tr><td>Not Categorized</td><td>" + millisToTime(totals[i].Total) + "</td><td></td></tr>" : html = html + "<tr><td>" + totals[i].Ref + "</td><td>" + millisToTime(totals[i].Total) + "</td></tr>";
-}
-
-html = html + "<tr><th>DAY TOTAL</th><td>" + millisToTime(g) + "</td></tr></table>";
-e1.innerHTML = html;
+	var e1 = document.getElementById("Totals");
+	var html, i, h, m, s, t;
+	var g = 0;
+	
+	html = "<table border='1'><tr><th width='200'>Reference</th><th>Total Time</th></tr>";
+	
+	for (i = 0; i < totals.length; i = i + 1) {
+		g = g + totals[i].Total;
+		totals[i].Ref === "" ? html = html + "<tr><td>Not Categorized</td><td>" + millisToTime(totals[i].Total) + "</td><td></td></tr>" : html = html + "<tr><td>" + totals[i].Ref + "</td><td>" + millisToTime(totals[i].Total) + "</td></tr>";
+	}
+	
+	html = html + "<tr><th>DAY TOTAL</th><td>" + millisToTime(g) + "</td></tr></table>";
+	e1.innerHTML = html;
 }
 
 function calc() {
-totals = [];
-
-var e1, e2, e3, r;
-
-for (r = 1; r <= (MAX - 1); r = r + 1) {
-    e1 = document.getElementById("Ref_" + r);
-    e2 = document.getElementById("Time_" + r);
-    e3 = document.getElementById("Time_" + (r + 1));
-    
-    if (e3.value !== "") {
-        append(e1.value.toUpperCase(), decode(e3.value).getTime() - decode(e2.value).getTime());
-    }
-}
-
-display();
-save();
+	totals = [];
+	
+	var e1, e2, e3, r;
+	
+	for (r = 1; r <= (MAX - 1); r = r + 1) {
+		e1 = document.getElementById("Ref_" + r);
+		e2 = document.getElementById("Time_" + r);
+		e3 = document.getElementById("Time_" + (r + 1));
+		
+		if (e3.value !== "") {
+			append(e1.value.toUpperCase(), decode(e3.value).getTime() - decode(e2.value).getTime());
+		}
+	}
+	
+	display();
+	save();
 }
 
 function clean() {
-if (window.confirm("Are you sure?")) {
-    var r;
-    
-    for (r = 1; r <= MAX; r = r + 1) {
-        document.getElementById("Ref_" + r).value = "";
-        document.getElementById("Time_" + r).value = "";
-        document.getElementById("Desc_" + r).value = "";
-    }
-    
-    var node = document.getElementById("Totals");
-    
-    while (node.hasChildNodes()) {
-        node.removeChild(node.firstChild);
-    }
-    
-    save();
+	if (window.confirm("Are you sure?")) {
+		var r;
+		
+		for (r = 1; r <= MAX; r = r + 1) {
+			document.getElementById("Ref_" + r).value = "";
+			document.getElementById("Time_" + r).value = "";
+			document.getElementById("Desc_" + r).value = "";
+		}
+		
+		var node = document.getElementById("Totals");
+		
+		while (node.hasChildNodes()) {
+			node.removeChild(node.firstChild);
+		}
+		
+		save();
+	}
 }
-}
-    </script>
-</head>
-<body>
-    <table border="0" width="100%">
-        <tbody><tr>
-            <td valign="top" width="66%">
-                <table border="0">
-                    <tbody><tr><th></th><th>Start Time</th><th>Reference</th><th>Description</th></tr>
-                    <tr><td><input type="button" id="Begin_1" value="&gt;&gt;&gt;" onclick="javascript:begin(1);"></td><td><input type="text" id="Time_1" value="" size="20"></td><td><input type="text" id="Ref_1" value=""></td><td><input type="text" id="Desc_1" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_2" value="&gt;&gt;&gt;" onclick="javascript:begin(2);"></td><td><input type="text" id="Time_2" value="" size="20"></td><td><input type="text" id="Ref_2" value=""></td><td><input type="text" id="Desc_2" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_3" value="&gt;&gt;&gt;" onclick="javascript:begin(3);"></td><td><input type="text" id="Time_3" value="" size="20"></td><td><input type="text" id="Ref_3" value=""></td><td><input type="text" id="Desc_3" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_4" value="&gt;&gt;&gt;" onclick="javascript:begin(4);"></td><td><input type="text" id="Time_4" value="" size="20"></td><td><input type="text" id="Ref_4" value=""></td><td><input type="text" id="Desc_4" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_5" value="&gt;&gt;&gt;" onclick="javascript:begin(5);"></td><td><input type="text" id="Time_5" value="" size="20"></td><td><input type="text" id="Ref_5" value=""></td><td><input type="text" id="Desc_5" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_6" value="&gt;&gt;&gt;" onclick="javascript:begin(6);"></td><td><input type="text" id="Time_6" value="" size="20"></td><td><input type="text" id="Ref_6" value=""></td><td><input type="text" id="Desc_6" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_7" value="&gt;&gt;&gt;" onclick="javascript:begin(7);"></td><td><input type="text" id="Time_7" value="" size="20"></td><td><input type="text" id="Ref_7" value=""></td><td><input type="text" id="Desc_7" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_8" value="&gt;&gt;&gt;" onclick="javascript:begin(8);"></td><td><input type="text" id="Time_8" value="" size="20"></td><td><input type="text" id="Ref_8" value=""></td><td><input type="text" id="Desc_8" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_9" value="&gt;&gt;&gt;" onclick="javascript:begin(9);"></td><td><input type="text" id="Time_9" value="" size="20"></td><td><input type="text" id="Ref_9" value=""></td><td><input type="text" id="Desc_9" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_10" value="&gt;&gt;&gt;" onclick="javascript:begin(10);"></td><td><input type="text" id="Time_10" value="" size="20"></td><td><input type="text" id="Ref_10" value=""></td><td><input type="text" id="Desc_10" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_11" value="&gt;&gt;&gt;" onclick="javascript:begin(11);"></td><td><input type="text" id="Time_11" value="" size="20"></td><td><input type="text" id="Ref_11" value=""></td><td><input type="text" id="Desc_11" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_12" value="&gt;&gt;&gt;" onclick="javascript:begin(12);"></td><td><input type="text" id="Time_12" value="" size="20"></td><td><input type="text" id="Ref_12" value=""></td><td><input type="text" id="Desc_12" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_13" value="&gt;&gt;&gt;" onclick="javascript:begin(13);"></td><td><input type="text" id="Time_13" value="" size="20"></td><td><input type="text" id="Ref_13" value=""></td><td><input type="text" id="Desc_13" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_14" value="&gt;&gt;&gt;" onclick="javascript:begin(14);"></td><td><input type="text" id="Time_14" value="" size="20"></td><td><input type="text" id="Ref_14" value=""></td><td><input type="text" id="Desc_14" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_15" value="&gt;&gt;&gt;" onclick="javascript:begin(15);"></td><td><input type="text" id="Time_15" value="" size="20"></td><td><input type="text" id="Ref_15" value=""></td><td><input type="text" id="Desc_15" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_16" value="&gt;&gt;&gt;" onclick="javascript:begin(16);"></td><td><input type="text" id="Time_16" value="" size="20"></td><td><input type="text" id="Ref_16" value=""></td><td><input type="text" id="Desc_16" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_17" value="&gt;&gt;&gt;" onclick="javascript:begin(17);"></td><td><input type="text" id="Time_17" value="" size="20"></td><td><input type="text" id="Ref_17" value=""></td><td><input type="text" id="Desc_17" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_18" value="&gt;&gt;&gt;" onclick="javascript:begin(18);"></td><td><input type="text" id="Time_18" value="" size="20"></td><td><input type="text" id="Ref_18" value=""></td><td><input type="text" id="Desc_18" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_19" value="&gt;&gt;&gt;" onclick="javascript:begin(19);"></td><td><input type="text" id="Time_19" value="" size="20"></td><td><input type="text" id="Ref_19" value=""></td><td><input type="text" id="Desc_19" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_20" value="&gt;&gt;&gt;" onclick="javascript:begin(20);"></td><td><input type="text" id="Time_20" value="" size="20"></td><td><input type="text" id="Ref_20" value=""></td><td><input type="text" id="Desc_20" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_21" value="&gt;&gt;&gt;" onclick="javascript:begin(21);"></td><td><input type="text" id="Time_21" value="" size="20"></td><td><input type="text" id="Ref_21" value=""></td><td><input type="text" id="Desc_21" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_22" value="&gt;&gt;&gt;" onclick="javascript:begin(22);"></td><td><input type="text" id="Time_22" value="" size="20"></td><td><input type="text" id="Ref_22" value=""></td><td><input type="text" id="Desc_22" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_23" value="&gt;&gt;&gt;" onclick="javascript:begin(23);"></td><td><input type="text" id="Time_23" value="" size="20"></td><td><input type="text" id="Ref_23" value=""></td><td><input type="text" id="Desc_23" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_24" value="&gt;&gt;&gt;" onclick="javascript:begin(24);"></td><td><input type="text" id="Time_24" value="" size="20"></td><td><input type="text" id="Ref_24" value=""></td><td><input type="text" id="Desc_24" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_25" value="&gt;&gt;&gt;" onclick="javascript:begin(25);"></td><td><input type="text" id="Time_25" value="" size="20"></td><td><input type="text" id="Ref_25" value=""></td><td><input type="text" id="Desc_25" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_26" value="&gt;&gt;&gt;" onclick="javascript:begin(26);"></td><td><input type="text" id="Time_26" value="" size="20"></td><td><input type="text" id="Ref_26" value=""></td><td><input type="text" id="Desc_26" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_27" value="&gt;&gt;&gt;" onclick="javascript:begin(27);"></td><td><input type="text" id="Time_27" value="" size="20"></td><td><input type="text" id="Ref_27" value=""></td><td><input type="text" id="Desc_27" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_28" value="&gt;&gt;&gt;" onclick="javascript:begin(28);"></td><td><input type="text" id="Time_28" value="" size="20"></td><td><input type="text" id="Ref_28" value=""></td><td><input type="text" id="Desc_28" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_29" value="&gt;&gt;&gt;" onclick="javascript:begin(29);"></td><td><input type="text" id="Time_29" value="" size="20"></td><td><input type="text" id="Ref_29" value=""></td><td><input type="text" id="Desc_29" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_30" value="&gt;&gt;&gt;" onclick="javascript:begin(30);"></td><td><input type="text" id="Time_30" value="" size="20"></td><td><input type="text" id="Ref_30" value=""></td><td><input type="text" id="Desc_30" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_31" value="&gt;&gt;&gt;" onclick="javascript:begin(31);"></td><td><input type="text" id="Time_31" value="" size="20"></td><td><input type="text" id="Ref_31" value=""></td><td><input type="text" id="Desc_31" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_32" value="&gt;&gt;&gt;" onclick="javascript:begin(32);"></td><td><input type="text" id="Time_32" value="" size="20"></td><td><input type="text" id="Ref_32" value=""></td><td><input type="text" id="Desc_32" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_33" value="&gt;&gt;&gt;" onclick="javascript:begin(33);"></td><td><input type="text" id="Time_33" value="" size="20"></td><td><input type="text" id="Ref_33" value=""></td><td><input type="text" id="Desc_33" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_34" value="&gt;&gt;&gt;" onclick="javascript:begin(34);"></td><td><input type="text" id="Time_34" value="" size="20"></td><td><input type="text" id="Ref_34" value=""></td><td><input type="text" id="Desc_34" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_35" value="&gt;&gt;&gt;" onclick="javascript:begin(35);"></td><td><input type="text" id="Time_35" value="" size="20"></td><td><input type="text" id="Ref_35" value=""></td><td><input type="text" id="Desc_35" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_36" value="&gt;&gt;&gt;" onclick="javascript:begin(36);"></td><td><input type="text" id="Time_36" value="" size="20"></td><td><input type="text" id="Ref_36" value=""></td><td><input type="text" id="Desc_36" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_37" value="&gt;&gt;&gt;" onclick="javascript:begin(37);"></td><td><input type="text" id="Time_37" value="" size="20"></td><td><input type="text" id="Ref_37" value=""></td><td><input type="text" id="Desc_37" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_38" value="&gt;&gt;&gt;" onclick="javascript:begin(38);"></td><td><input type="text" id="Time_38" value="" size="20"></td><td><input type="text" id="Ref_38" value=""></td><td><input type="text" id="Desc_38" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_39" value="&gt;&gt;&gt;" onclick="javascript:begin(39);"></td><td><input type="text" id="Time_39" value="" size="20"></td><td><input type="text" id="Ref_39" value=""></td><td><input type="text" id="Desc_39" value="" size="40"></td></tr>
-                    <tr><td><input type="button" id="Begin_40" value="&gt;&gt;&gt;" onclick="javascript:begin(40);"></td><td><input type="text" id="Time_40" value="" size="20"></td><td><input type="text" id="Ref_40" value=""></td><td><input type="text" id="Desc_40" value="" size="40"></td></tr>
-                </tbody></table>
-            </td>
-            <td valign="top" width="33%">
-                <br><br>
-                <input type="button" id="Total" ,="" value="Calc Totals &gt;&gt;" onclick="javascript:calc();">
-                <br><br>
-                <div id="Totals"></div>
-                <br>
-                <input type="button" id="Clear" ,="" value="Clean Form &gt;&gt;" onclick="javascript:clean();">
-            </td>
-        </tr>
-    </tbody></table>
-
-<script>load();</script>
+		</script>
+	</head>
+	<body>
+		<table border="0" width="100%">
+			<tbody><tr>
+				<td valign="top" width="66%">
+					<table border="0">
+						<tbody><tr><th></th><th>Start Time</th><th>Reference</th><th>Description</th></tr>
+						<tr><td><input type="button" id="Begin_1" value="&gt;&gt;&gt;" onclick="javascript:begin(1);"></td><td><input type="text" id="Time_1" value="" size="20"></td><td><input type="text" id="Ref_1" value=""></td><td><input type="text" id="Desc_1" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_2" value="&gt;&gt;&gt;" onclick="javascript:begin(2);"></td><td><input type="text" id="Time_2" value="" size="20"></td><td><input type="text" id="Ref_2" value=""></td><td><input type="text" id="Desc_2" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_3" value="&gt;&gt;&gt;" onclick="javascript:begin(3);"></td><td><input type="text" id="Time_3" value="" size="20"></td><td><input type="text" id="Ref_3" value=""></td><td><input type="text" id="Desc_3" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_4" value="&gt;&gt;&gt;" onclick="javascript:begin(4);"></td><td><input type="text" id="Time_4" value="" size="20"></td><td><input type="text" id="Ref_4" value=""></td><td><input type="text" id="Desc_4" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_5" value="&gt;&gt;&gt;" onclick="javascript:begin(5);"></td><td><input type="text" id="Time_5" value="" size="20"></td><td><input type="text" id="Ref_5" value=""></td><td><input type="text" id="Desc_5" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_6" value="&gt;&gt;&gt;" onclick="javascript:begin(6);"></td><td><input type="text" id="Time_6" value="" size="20"></td><td><input type="text" id="Ref_6" value=""></td><td><input type="text" id="Desc_6" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_7" value="&gt;&gt;&gt;" onclick="javascript:begin(7);"></td><td><input type="text" id="Time_7" value="" size="20"></td><td><input type="text" id="Ref_7" value=""></td><td><input type="text" id="Desc_7" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_8" value="&gt;&gt;&gt;" onclick="javascript:begin(8);"></td><td><input type="text" id="Time_8" value="" size="20"></td><td><input type="text" id="Ref_8" value=""></td><td><input type="text" id="Desc_8" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_9" value="&gt;&gt;&gt;" onclick="javascript:begin(9);"></td><td><input type="text" id="Time_9" value="" size="20"></td><td><input type="text" id="Ref_9" value=""></td><td><input type="text" id="Desc_9" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_10" value="&gt;&gt;&gt;" onclick="javascript:begin(10);"></td><td><input type="text" id="Time_10" value="" size="20"></td><td><input type="text" id="Ref_10" value=""></td><td><input type="text" id="Desc_10" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_11" value="&gt;&gt;&gt;" onclick="javascript:begin(11);"></td><td><input type="text" id="Time_11" value="" size="20"></td><td><input type="text" id="Ref_11" value=""></td><td><input type="text" id="Desc_11" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_12" value="&gt;&gt;&gt;" onclick="javascript:begin(12);"></td><td><input type="text" id="Time_12" value="" size="20"></td><td><input type="text" id="Ref_12" value=""></td><td><input type="text" id="Desc_12" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_13" value="&gt;&gt;&gt;" onclick="javascript:begin(13);"></td><td><input type="text" id="Time_13" value="" size="20"></td><td><input type="text" id="Ref_13" value=""></td><td><input type="text" id="Desc_13" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_14" value="&gt;&gt;&gt;" onclick="javascript:begin(14);"></td><td><input type="text" id="Time_14" value="" size="20"></td><td><input type="text" id="Ref_14" value=""></td><td><input type="text" id="Desc_14" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_15" value="&gt;&gt;&gt;" onclick="javascript:begin(15);"></td><td><input type="text" id="Time_15" value="" size="20"></td><td><input type="text" id="Ref_15" value=""></td><td><input type="text" id="Desc_15" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_16" value="&gt;&gt;&gt;" onclick="javascript:begin(16);"></td><td><input type="text" id="Time_16" value="" size="20"></td><td><input type="text" id="Ref_16" value=""></td><td><input type="text" id="Desc_16" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_17" value="&gt;&gt;&gt;" onclick="javascript:begin(17);"></td><td><input type="text" id="Time_17" value="" size="20"></td><td><input type="text" id="Ref_17" value=""></td><td><input type="text" id="Desc_17" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_18" value="&gt;&gt;&gt;" onclick="javascript:begin(18);"></td><td><input type="text" id="Time_18" value="" size="20"></td><td><input type="text" id="Ref_18" value=""></td><td><input type="text" id="Desc_18" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_19" value="&gt;&gt;&gt;" onclick="javascript:begin(19);"></td><td><input type="text" id="Time_19" value="" size="20"></td><td><input type="text" id="Ref_19" value=""></td><td><input type="text" id="Desc_19" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_20" value="&gt;&gt;&gt;" onclick="javascript:begin(20);"></td><td><input type="text" id="Time_20" value="" size="20"></td><td><input type="text" id="Ref_20" value=""></td><td><input type="text" id="Desc_20" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_21" value="&gt;&gt;&gt;" onclick="javascript:begin(21);"></td><td><input type="text" id="Time_21" value="" size="20"></td><td><input type="text" id="Ref_21" value=""></td><td><input type="text" id="Desc_21" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_22" value="&gt;&gt;&gt;" onclick="javascript:begin(22);"></td><td><input type="text" id="Time_22" value="" size="20"></td><td><input type="text" id="Ref_22" value=""></td><td><input type="text" id="Desc_22" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_23" value="&gt;&gt;&gt;" onclick="javascript:begin(23);"></td><td><input type="text" id="Time_23" value="" size="20"></td><td><input type="text" id="Ref_23" value=""></td><td><input type="text" id="Desc_23" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_24" value="&gt;&gt;&gt;" onclick="javascript:begin(24);"></td><td><input type="text" id="Time_24" value="" size="20"></td><td><input type="text" id="Ref_24" value=""></td><td><input type="text" id="Desc_24" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_25" value="&gt;&gt;&gt;" onclick="javascript:begin(25);"></td><td><input type="text" id="Time_25" value="" size="20"></td><td><input type="text" id="Ref_25" value=""></td><td><input type="text" id="Desc_25" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_26" value="&gt;&gt;&gt;" onclick="javascript:begin(26);"></td><td><input type="text" id="Time_26" value="" size="20"></td><td><input type="text" id="Ref_26" value=""></td><td><input type="text" id="Desc_26" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_27" value="&gt;&gt;&gt;" onclick="javascript:begin(27);"></td><td><input type="text" id="Time_27" value="" size="20"></td><td><input type="text" id="Ref_27" value=""></td><td><input type="text" id="Desc_27" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_28" value="&gt;&gt;&gt;" onclick="javascript:begin(28);"></td><td><input type="text" id="Time_28" value="" size="20"></td><td><input type="text" id="Ref_28" value=""></td><td><input type="text" id="Desc_28" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_29" value="&gt;&gt;&gt;" onclick="javascript:begin(29);"></td><td><input type="text" id="Time_29" value="" size="20"></td><td><input type="text" id="Ref_29" value=""></td><td><input type="text" id="Desc_29" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_30" value="&gt;&gt;&gt;" onclick="javascript:begin(30);"></td><td><input type="text" id="Time_30" value="" size="20"></td><td><input type="text" id="Ref_30" value=""></td><td><input type="text" id="Desc_30" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_31" value="&gt;&gt;&gt;" onclick="javascript:begin(31);"></td><td><input type="text" id="Time_31" value="" size="20"></td><td><input type="text" id="Ref_31" value=""></td><td><input type="text" id="Desc_31" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_32" value="&gt;&gt;&gt;" onclick="javascript:begin(32);"></td><td><input type="text" id="Time_32" value="" size="20"></td><td><input type="text" id="Ref_32" value=""></td><td><input type="text" id="Desc_32" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_33" value="&gt;&gt;&gt;" onclick="javascript:begin(33);"></td><td><input type="text" id="Time_33" value="" size="20"></td><td><input type="text" id="Ref_33" value=""></td><td><input type="text" id="Desc_33" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_34" value="&gt;&gt;&gt;" onclick="javascript:begin(34);"></td><td><input type="text" id="Time_34" value="" size="20"></td><td><input type="text" id="Ref_34" value=""></td><td><input type="text" id="Desc_34" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_35" value="&gt;&gt;&gt;" onclick="javascript:begin(35);"></td><td><input type="text" id="Time_35" value="" size="20"></td><td><input type="text" id="Ref_35" value=""></td><td><input type="text" id="Desc_35" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_36" value="&gt;&gt;&gt;" onclick="javascript:begin(36);"></td><td><input type="text" id="Time_36" value="" size="20"></td><td><input type="text" id="Ref_36" value=""></td><td><input type="text" id="Desc_36" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_37" value="&gt;&gt;&gt;" onclick="javascript:begin(37);"></td><td><input type="text" id="Time_37" value="" size="20"></td><td><input type="text" id="Ref_37" value=""></td><td><input type="text" id="Desc_37" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_38" value="&gt;&gt;&gt;" onclick="javascript:begin(38);"></td><td><input type="text" id="Time_38" value="" size="20"></td><td><input type="text" id="Ref_38" value=""></td><td><input type="text" id="Desc_38" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_39" value="&gt;&gt;&gt;" onclick="javascript:begin(39);"></td><td><input type="text" id="Time_39" value="" size="20"></td><td><input type="text" id="Ref_39" value=""></td><td><input type="text" id="Desc_39" value="" size="40"></td></tr>
+						<tr><td><input type="button" id="Begin_40" value="&gt;&gt;&gt;" onclick="javascript:begin(40);"></td><td><input type="text" id="Time_40" value="" size="20"></td><td><input type="text" id="Ref_40" value=""></td><td><input type="text" id="Desc_40" value="" size="40"></td></tr>
+					</tbody></table>
+				</td>
+				<td valign="top" width="33%">
+					<br><br>
+					<input type="button" id="Total" ,="" value="Calc Totals &gt;&gt;" onclick="javascript:calc();">
+					<br><br>
+					<div id="Totals"></div>
+					<br>
+					<input type="button" id="Clear" ,="" value="Clean Form &gt;&gt;" onclick="javascript:clean();">
+				</td>
+			</tr>
+		</tbody></table>
+	
+	<script>load();</script>
 
 
 </body></html>
